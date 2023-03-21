@@ -2,6 +2,11 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Auction {
+    event Log(uint amount, uint gas);
+    receive() external payable {
+        emit Log(msg.value, gasleft());
+    }
+
     struct Item {
         uint id;
         string name;
@@ -33,5 +38,11 @@ contract Auction {
             itemArr[i] = itemMap[i];
         }
         return itemArr;
+    }
+
+    function bid(uint price, uint id) public returns (uint){
+        itemMap[id].price = price;
+        itemMap[id].bidder = msg.sender;
+        return price;
     }
 }
