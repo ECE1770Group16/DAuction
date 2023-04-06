@@ -7,8 +7,11 @@ function AuctionList() {
     state: { contract, accounts },
   } = useEth();
   const [itemArr, setItemArr] = useState([]);
-  const [price, setPrice] = useState(0);
+  const [priceBid, setPriceBid] = useState(0);
   const [id, setId] = useState(0);
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
+  const [priceStart, setPriceStart] = useState(0);
   const isInitialMount = useRef(true);
 
   const getAll = async () => {
@@ -20,11 +23,11 @@ function AuctionList() {
   };
 
   const bid = async () => {
-    const newId = parseInt(id);
-    const newPrice = parseInt(price);
-    const deposit = (newPrice / 5).toString();
+    // const newId = parseInt(id);
+    // const newPrice = parseInt(price);
+    const deposit = (priceBid / 5).toString();
     await contract.methods
-      .bid(newPrice, newId)
+      .bid(priceBid, id)
       .send({
         from: accounts[0],
         value: Web3.utils.toHex(Web3.utils.toWei(deposit, "ether")),
@@ -46,6 +49,20 @@ function AuctionList() {
     // 	],
     // }).then((txHash) => console.log(txHash)).catch((error) => console.error(error));
     // Web3.eth.sendTransaction({from: accounts[0],to: "0xEa998fB4fa1F361f7aB6eF7506C495bF1C2BF380", value: Web3.utils.toWei("1", "ether")})
+  };
+
+  const addItem = async () => {
+    await contract.methods
+      .addItem(name, content, priceStart, 0)
+      .send({
+        from: accounts[0],
+      })
+      .then((receipt) => {
+        console.log("Transaction receipt:", receipt);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   useEffect(() => {
@@ -109,9 +126,9 @@ function AuctionList() {
                 type="number"
                 className="form-control"
                 placeholder="Please input the price you want to bid"
-                value={price}
+                value={priceBid}
                 onChange={(e) => {
-                  setPrice(e.target.value);
+                  setPriceBid(e.target.value);
                 }}
               />
             </div>
@@ -174,6 +191,44 @@ function AuctionList() {
                 ))}
           </tbody>
         </table>
+        <hr />
+        <h3 className="p-3 text-center">Create Auction</h3>
+        <form onSubmit={addItem}>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Name of the new item"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Content of the new item"
+              value={content}
+              onChange={(e) => {
+                setContent(e.target.value);
+              }}
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Please input the price you want to bid"
+              value={priceStart}
+              onChange={(e) => {
+                setPriceStart(e.target.value);
+              }}
+            />
+          </div>
+          <input type="submit" className="btn btn-primary" />
+        </form>
       </div>
     </>
   );
