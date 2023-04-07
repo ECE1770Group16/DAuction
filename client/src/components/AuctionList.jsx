@@ -12,6 +12,7 @@ function AuctionList() {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [priceStart, setPriceStart] = useState(0);
+  const [endId, setEndId] = useState(0);
   const isInitialMount = useRef(true);
 
   const getAll = async () => {
@@ -63,6 +64,25 @@ function AuctionList() {
       .catch((error) => {
         console.error("Error:", error);
       });
+  };
+
+  const end = async () => {
+    console.log(itemArr[endId]["owner"]);
+    if (itemArr[endId]["owner"] === accounts[0]) {
+      await contract.methods
+        .end(endId)
+        .send({
+          from: accounts[0],
+        })
+        .then((receipt) => {
+          console.log("Transaction receipt:", receipt);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      alert("Only the owner can end the auction");
+    }
   };
 
   useEffect(() => {
@@ -118,14 +138,13 @@ function AuctionList() {
           </tbody>
         </table>
 
-        <form onSubmit={bid}>
+        <form onSubmit={bid} className="mb-3">
           <div className="row">
             <div className="col">
               <input
                 type="number"
                 className="form-control"
-                placeholder="Please input the id"
-                value={id}
+                placeholder="Auction ID"
                 onChange={(e) => {
                   setId(e.target.value);
                 }}
@@ -135,18 +154,36 @@ function AuctionList() {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Please input the price you want to bid"
-                value={priceBid}
+                placeholder="Bid Price"
                 onChange={(e) => {
                   setPriceBid(e.target.value);
                 }}
               />
             </div>
             <div className="col">
-              <input type="submit" className="btn btn-primary" />
+              <input type="submit" className="btn btn-primary" value="BID" />
             </div>
           </div>
         </form>
+
+        <form onSubmit={end}>
+          <div className="row">
+            <div className="col">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Auction ID"
+                onChange={(e) => {
+                  setEndId(e.target.value);
+                }}
+              />
+            </div>
+            <div className="col">
+              <input type="submit" className="btn btn-primary" value="END" />
+            </div>
+          </div>
+        </form>
+
         <hr />
         <h3 className="p-3 text-center">Auctions wait for final payment</h3>
         <table className="table table-striped table-bordered">
@@ -257,7 +294,7 @@ function AuctionList() {
               }}
             />
           </div>
-          <input type="submit" className="btn btn-primary" />
+          <input type="submit" className="btn btn-primary" value="CREATE" />
         </form>
       </div>
     </>

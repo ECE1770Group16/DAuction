@@ -61,4 +61,9 @@ contract Auction {
         itemMap[id].bidder = msg.sender;
         return msg.value;
     }
+
+    function end(uint id) public returns (uint) {
+        itemMap[id].status = 1;
+        return id;
+    }
 }
