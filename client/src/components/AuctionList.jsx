@@ -26,19 +26,23 @@ function AuctionList() {
   const bid = async () => {
     // const newId = parseInt(id);
     // const newPrice = parseInt(price);
-    const deposit = (priceBid / 5).toString();
-    await contract.methods
-      .bid(priceBid, id)
-      .send({
-        from: accounts[0],
-        value: Web3.utils.toHex(Web3.utils.toWei(deposit, "ether")),
-      })
-      .then((receipt) => {
-        console.log("Transaction receipt:", receipt);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    if (priceBid > parseInt(itemArr[id]["price"])) {
+      const deposit = (priceBid / 5).toString();
+      await contract.methods
+        .bid(priceBid, id)
+        .send({
+          from: accounts[0],
+          value: Web3.utils.toHex(Web3.utils.toWei(deposit, "ether")),
+        })
+        .then((receipt) => {
+          console.log("Transaction receipt:", receipt);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      alert("Bidding must be higher than current price");
+    }
     // await window.ethereum.request({
     // 	method: 'eth_sendTransaction',
     // 	params: [
@@ -185,7 +189,7 @@ function AuctionList() {
         </form>
 
         <hr />
-        <h3 className="p-3 text-center">Auctions wait for final payment</h3>
+        <h3 className="p-3 text-center">Auctions awaiting final payment</h3>
         <table className="table table-striped table-bordered">
           <thead>
             <tr>
