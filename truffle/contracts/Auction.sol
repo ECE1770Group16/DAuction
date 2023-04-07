@@ -19,11 +19,11 @@ contract Auction {
     }
 
     constructor() {
-        addItem("item1", "This is the first item", 0, 0);
-        addItem("item2", "This is the second item", 0, 0);
-        addItem("item3", "This is the third item", 0, 0);
-        addItem("item4", "This is the item in status 1", 5, 1);
-        addItem("item5", "This is teh item in status 2", 10, 2);
+        // addItem("item1", "This is the first item", 0, 0);
+        // addItem("item2", "This is the second item", 0, 0);
+        // addItem("item3", "This is the third item", 0, 0);
+        // addItem("item4", "This is the item in status 1", 5, 1);
+        // addItem("item5", "This is teh item in status 2", 10, 2);
     }
 
     uint public idCount;
@@ -41,8 +41,8 @@ contract Auction {
             content,
             status,
             price,
-            0x777A97E3dA0583ABEdd43e7C8f1Dc547d0129B63,
-            0x777A97E3dA0583ABEdd43e7C8f1Dc547d0129B63
+            msg.sender,
+            msg.sender
         );
         ++idCount;
         return idCount;

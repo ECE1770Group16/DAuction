@@ -88,6 +88,7 @@ function AuctionList() {
               <th>ID</th>
               <th>Name</th>
               <th>content</th>
+              <th>owner</th>
               <th>bidder</th>
               <th>price</th>
             </tr>
@@ -101,8 +102,17 @@ function AuctionList() {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>{item.content}</td>
-                    <td>{item.bidder}</td>
-                    <td>{item.price}</td>
+                    <td>
+                      {item.owner
+                        .slice(0, 5)
+                        .concat("...", item.owner.slice(-4))}
+                    </td>
+                    <td>
+                      {item.bidder
+                        .slice(0, 5)
+                        .concat("...", item.bidder.slice(-4))}
+                    </td>
+                    <td>{item.price.concat(" ether")}</td>
                   </tr>
                 ))}
           </tbody>
@@ -145,6 +155,7 @@ function AuctionList() {
               <th>ID</th>
               <th>Name</th>
               <th>content</th>
+              <th>owner</th>
               <th>bidder</th>
               <th>price</th>
             </tr>
@@ -158,8 +169,17 @@ function AuctionList() {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>{item.content}</td>
-                    <td>{item.bidder}</td>
-                    <td>{item.price}</td>
+                    <td>
+                      {item.owner
+                        .slice(0, 5)
+                        .concat("...", item.owner.slice(-4))}
+                    </td>
+                    <td>
+                      {item.bidder
+                        .slice(0, 5)
+                        .concat("...", item.bidder.slice(-4))}
+                    </td>
+                    <td>{item.price.concat(" ether")}</td>
                   </tr>
                 ))}
           </tbody>
@@ -172,6 +192,7 @@ function AuctionList() {
               <th>ID</th>
               <th>Name</th>
               <th>content</th>
+              <th>owner</th>
               <th>bidder</th>
               <th>price</th>
             </tr>
@@ -185,8 +206,17 @@ function AuctionList() {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>{item.content}</td>
-                    <td>{item.bidder}</td>
-                    <td>{item.price}</td>
+                    <td>
+                      {item.owner
+                        .slice(0, 5)
+                        .concat("...", item.owner.slice(-4))}
+                    </td>
+                    <td>
+                      {item.bidder
+                        .slice(0, 5)
+                        .concat("...", item.bidder.slice(-4))}
+                    </td>
+                    <td>{item.price.concat(" ether")}</td>
                   </tr>
                 ))}
           </tbody>
