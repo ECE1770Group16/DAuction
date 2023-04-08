@@ -71,4 +71,11 @@ contract Auction {
         itemMap[id].status = 1;
         return id;
     }
+
+    function payment(uint id) public payable returns (uint) {
+        this.sendEther(itemMap[id].owner, itemMap[id].price);
+        itemMap[id].owner = payable(msg.sender);
+        itemMap[id].status = 2;
+        return msg.value;
+    }
 }

@@ -13,6 +13,8 @@ function AuctionList() {
   const [content, setContent] = useState("");
   const [priceStart, setPriceStart] = useState(0);
   const [endId, setEndId] = useState(0);
+  const [paymentId, setPaymentId] = useState(0);
+
   // const isInitialMount = useRef(true);
 
   const etherToWei = (value) => {
@@ -93,6 +95,25 @@ function AuctionList() {
         });
     } else {
       alert("Only the owner can end the auction");
+    }
+  };
+
+  const payment = async () => {
+    if (itemArr[paymentId]["bidder"] === accounts[0]) {
+      await contract.methods
+        .payment(paymentId)
+        .send({
+          from: accounts[0],
+          value: parseInt(itemArr[paymentId]["price"] * 0.8).toString(),
+        })
+        .then((receipt) => {
+          console.log("Transaction receipt:", receipt);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      alert("Only the last bidder can pay the final payment");
     }
   };
 
@@ -240,6 +261,23 @@ function AuctionList() {
                 ))}
           </tbody>
         </table>
+        <form onSubmit={payment}>
+          <div className="row">
+            <div className="col">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Auction ID"
+                onChange={(e) => {
+                  setPaymentId(e.target.value);
+                }}
+              />
+            </div>
+            <div className="col">
+              <input type="submit" className="btn btn-primary" value="PAY" />
+            </div>
+          </div>
+        </form>
         <hr />
         <h3 className="p-3 text-center">Closed Auctions</h3>
         <table className="table table-striped table-bordered">
