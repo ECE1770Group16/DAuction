@@ -42,7 +42,7 @@ contract Auction {
             status,
             price,
             payable(msg.sender),
-            payable(msg.sender)
+            payable(address(0))
         );
         ++idCount;
         return idCount;
@@ -61,7 +61,9 @@ contract Auction {
     }
 
     function bid(uint id) public payable returns (uint) {
-        this.sendEther(itemMap[id].bidder, itemMap[id].price / 5);
+        if (itemMap[id].bidder != payable(address(0))) {
+            this.sendEther(itemMap[id].bidder, itemMap[id].price / 5);
+        }
         itemMap[id].price = msg.value * 5;
         itemMap[id].bidder = payable(msg.sender);
         return msg.value;

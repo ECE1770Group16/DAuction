@@ -66,6 +66,7 @@ function AuctionList() {
   };
 
   const addItem = async () => {
+    console.log("add item triggered");
     await contract.methods
       .addItem(name, content, etherToWei(priceStart.toString()), 0)
       .send({
@@ -323,7 +324,6 @@ function AuctionList() {
               type="text"
               className="form-control"
               placeholder="Name of the new item"
-              value={name}
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -334,7 +334,6 @@ function AuctionList() {
               type="text"
               className="form-control"
               placeholder="Content of the new item"
-              value={content}
               onChange={(e) => {
                 setContent(e.target.value);
               }}
@@ -344,8 +343,7 @@ function AuctionList() {
             <input
               type="number"
               className="form-control"
-              placeholder="Please input the price you want to bid"
-              value={priceStart}
+              placeholder="Starting price of the new item"
               onChange={(e) => {
                 setPriceStart(e.target.value);
               }}
