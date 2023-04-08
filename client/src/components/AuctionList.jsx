@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useEth from "../contexts/EthContext/useEth";
 import Web3 from "web3";
 
@@ -13,7 +13,7 @@ function AuctionList() {
   const [content, setContent] = useState("");
   const [priceStart, setPriceStart] = useState(0);
   const [endId, setEndId] = useState(0);
-  const isInitialMount = useRef(true);
+  // const isInitialMount = useRef(true);
 
   const etherToWei = (value) => {
     return Web3.utils.toHex(Web3.utils.toWei(value, "ether"));
@@ -97,9 +97,17 @@ function AuctionList() {
   };
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
+    // if (isInitialMount.current) {
+    //   isInitialMount.current = false;
+    // } else {
+    //   getAll();
+    //   const web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
+    //   web3.eth.getBalance(contract._address).then((result) => {
+    //     // console.log(contract._address)
+    //     console.log(result);
+    //   });
+    // }
+    if (contract != null) {
       getAll();
       const web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
       web3.eth.getBalance(contract._address).then((result) => {
@@ -107,7 +115,7 @@ function AuctionList() {
         console.log(result);
       });
     }
-  }, [accounts]);
+  }, [contract, accounts]);
 
   return (
     <>
