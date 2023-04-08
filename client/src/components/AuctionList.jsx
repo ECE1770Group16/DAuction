@@ -15,6 +15,14 @@ function AuctionList() {
   const [endId, setEndId] = useState(0);
   const isInitialMount = useRef(true);
 
+  const etherToWei = (value) => {
+    return Web3.utils.toHex(Web3.utils.toWei(value, "ether"));
+  };
+
+  const weiToEther = (value) => {
+    return Web3.utils.fromWei(value, "ether");
+  };
+
   const getAll = async () => {
     const result = await contract.methods.getAll().call({ from: accounts[0] });
     setItemArr(result);
@@ -24,15 +32,14 @@ function AuctionList() {
   };
 
   const bid = async () => {
-    // const newId = parseInt(id);
-    // const newPrice = parseInt(price);
-    if (priceBid > parseInt(itemArr[id]["price"])) {
-      const deposit = (priceBid / 5).toString();
+    const priceBidWei = etherToWei(priceBid);
+    if (priceBidWei > parseInt(itemArr[id]["price"])) {
+      const deposit = (priceBidWei / 5).toString();
       await contract.methods
-        .bid(priceBid, id)
+        .bid(id)
         .send({
           from: accounts[0],
-          value: Web3.utils.toHex(Web3.utils.toWei(deposit, "ether")),
+          value: deposit,
         })
         .then((receipt) => {
           console.log("Transaction receipt:", receipt);
@@ -58,7 +65,7 @@ function AuctionList() {
 
   const addItem = async () => {
     await contract.methods
-      .addItem(name, content, priceStart, 0)
+      .addItem(name, content, etherToWei(priceStart.toString()), 0)
       .send({
         from: accounts[0],
       })
@@ -136,7 +143,7 @@ function AuctionList() {
                         .slice(0, 5)
                         .concat("...", item.bidder.slice(-4))}
                     </td>
-                    <td>{item.price.concat(" ether")}</td>
+                    <td>{weiToEther(item.price).concat(" ether")}</td>
                   </tr>
                 ))}
           </tbody>
@@ -220,7 +227,7 @@ function AuctionList() {
                         .slice(0, 5)
                         .concat("...", item.bidder.slice(-4))}
                     </td>
-                    <td>{item.price.concat(" ether")}</td>
+                    <td>{weiToEther(item.price).concat(" ether")}</td>
                   </tr>
                 ))}
           </tbody>
@@ -257,7 +264,7 @@ function AuctionList() {
                         .slice(0, 5)
                         .concat("...", item.bidder.slice(-4))}
                     </td>
-                    <td>{item.price.concat(" ether")}</td>
+                    <td>{weiToEther(item.price).concat(" ether")}</td>
                   </tr>
                 ))}
           </tbody>

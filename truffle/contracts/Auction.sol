@@ -14,8 +14,8 @@ contract Auction {
         string content;
         uint status;
         uint price;
-        address owner;
-        address bidder;
+        address payable owner;
+        address payable bidder;
     }
 
     constructor() {
@@ -41,8 +41,8 @@ contract Auction {
             content,
             status,
             price,
-            msg.sender,
-            msg.sender
+            payable(msg.sender),
+            payable(msg.sender)
         );
         ++idCount;
         return idCount;
@@ -56,9 +56,14 @@ contract Auction {
         return itemArr;
     }
 
-    function bid(uint price, uint id) public payable returns (uint) {
-        itemMap[id].price = price;
-        itemMap[id].bidder = msg.sender;
+    function sendEther(address payable _to, uint amount) external payable {
+        _to.transfer(amount);
+    }
+
+    function bid(uint id) public payable returns (uint) {
+        this.sendEther(itemMap[id].bidder, itemMap[id].price / 5);
+        itemMap[id].price = msg.value * 5;
+        itemMap[id].bidder = payable(msg.sender);
         return msg.value;
     }
 
