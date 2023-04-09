@@ -204,7 +204,6 @@ function AuctionList() {
             </div>
             <div className="col">
               <input
-                type="number"
                 className="form-control"
                 placeholder="Bid Price"
                 onChange={(e) => {
@@ -352,7 +351,6 @@ function AuctionList() {
           </div>
           <div className="mb-3">
             <input
-              type="number"
               className="form-control"
               placeholder="Starting price of the new item"
               onChange={(e) => {
