@@ -33,7 +33,8 @@ function AuctionList() {
     // console.log(window.ethereum.request);
   };
 
-  const bid = async () => {
+  const bid = async (event) => {
+    event.preventDefault();
     const priceBidWei = etherToWei(priceBid);
     if (itemArr[id]["status"] === "0") {
       if (priceBidWei > parseInt(itemArr[id]["price"])) {
@@ -69,7 +70,8 @@ function AuctionList() {
     // Web3.eth.sendTransaction({from: accounts[0],to: "0xEa998fB4fa1F361f7aB6eF7506C495bF1C2BF380", value: Web3.utils.toWei("1", "ether")})
   };
 
-  const addItem = async () => {
+  const addItem = async (event) => {
+    event.preventDefault();
     console.log("add item triggered");
     await contract.methods
       .addItem(name, content, etherToWei(priceStart.toString()), 0)
@@ -84,7 +86,8 @@ function AuctionList() {
       });
   };
 
-  const end = async () => {
+  const end = async (event) => {
+    event.preventDefault();
     if (itemArr[endId]["status"] === "0") {
       if (itemArr[endId]["owner"] === accounts[0]) {
         await contract.methods
@@ -106,7 +109,8 @@ function AuctionList() {
     }
   };
 
-  const payment = async () => {
+  const payment = async (event) => {
+    event.preventDefault();
     if (itemArr[paymentId]["status"] === "1") {
       if (itemArr[paymentId]["bidder"] === accounts[0]) {
         await contract.methods
