@@ -35,22 +35,26 @@ function AuctionList() {
 
   const bid = async () => {
     const priceBidWei = etherToWei(priceBid);
-    if (priceBidWei > parseInt(itemArr[id]["price"])) {
-      const deposit = (priceBidWei / 5).toString();
-      await contract.methods
-        .bid(id)
-        .send({
-          from: accounts[0],
-          value: deposit,
-        })
-        .then((receipt) => {
-          console.log("Transaction receipt:", receipt);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+    if (itemArr[id]["status"] === "0") {
+      if (priceBidWei > parseInt(itemArr[id]["price"])) {
+        const deposit = (priceBidWei / 5).toString();
+        await contract.methods
+          .bid(id)
+          .send({
+            from: accounts[0],
+            value: deposit,
+          })
+          .then((receipt) => {
+            console.log("Transaction receipt:", receipt);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        alert("Bidding must be higher than current price");
+      }
     } else {
-      alert("Bidding must be higher than current price");
+      alert("You can only bid on active auctions");
     }
     // await window.ethereum.request({
     // 	method: 'eth_sendTransaction',
@@ -81,40 +85,47 @@ function AuctionList() {
   };
 
   const end = async () => {
-    console.log(itemArr[endId]["owner"]);
-    if (itemArr[endId]["owner"] === accounts[0]) {
-      await contract.methods
-        .end(endId)
-        .send({
-          from: accounts[0],
-        })
-        .then((receipt) => {
-          console.log("Transaction receipt:", receipt);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+    if (itemArr[endId]["status"] === "0") {
+      if (itemArr[endId]["owner"] === accounts[0]) {
+        await contract.methods
+          .end(endId)
+          .send({
+            from: accounts[0],
+          })
+          .then((receipt) => {
+            console.log("Transaction receipt:", receipt);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        alert("Only the owner can end the auction");
+      }
     } else {
-      alert("Only the owner can end the auction");
+      alert("Only active auctions can be ended");
     }
   };
 
   const payment = async () => {
-    if (itemArr[paymentId]["bidder"] === accounts[0]) {
-      await contract.methods
-        .payment(paymentId)
-        .send({
-          from: accounts[0],
-          value: parseInt(itemArr[paymentId]["price"] * 0.8).toString(),
-        })
-        .then((receipt) => {
-          console.log("Transaction receipt:", receipt);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+    if (itemArr[paymentId]["status"] === "1") {
+      if (itemArr[paymentId]["bidder"] === accounts[0]) {
+        await contract.methods
+          .payment(paymentId)
+          .send({
+            from: accounts[0],
+            value: parseInt(itemArr[paymentId]["price"] * 0.8).toString(),
+          })
+          .then((receipt) => {
+            console.log("Transaction receipt:", receipt);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        alert("Only the last bidder can pay the final payment");
+      }
     } else {
-      alert("Only the last bidder can pay the final payment");
+      alert("Only auctions awaiting final payment can be paid");
     }
   };
 
