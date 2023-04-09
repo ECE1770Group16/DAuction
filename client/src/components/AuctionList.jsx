@@ -173,7 +173,7 @@ function AuctionList() {
                         .slice(0, 5)
                         .concat("...", item.bidder.slice(-4))}
                     </td>
-                    <td>{weiToEther(item.price).concat(" ether")}</td>
+                    <td>{weiToEther(item.price).concat(" ETH")}</td>
                   </tr>
                 ))}
           </tbody>
@@ -257,7 +257,7 @@ function AuctionList() {
                         .slice(0, 5)
                         .concat("...", item.bidder.slice(-4))}
                     </td>
-                    <td>{weiToEther(item.price).concat(" ether")}</td>
+                    <td>{weiToEther(item.price).concat(" ETH")}</td>
                   </tr>
                 ))}
           </tbody>
@@ -311,7 +311,7 @@ function AuctionList() {
                         .slice(0, 5)
                         .concat("...", item.bidder.slice(-4))}
                     </td>
-                    <td>{weiToEther(item.price).concat(" ether")}</td>
+                    <td>{weiToEther(item.price).concat(" ETH")}</td>
                   </tr>
                 ))}
           </tbody>

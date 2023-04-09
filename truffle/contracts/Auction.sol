@@ -70,7 +70,11 @@ contract Auction {
     }
 
     function end(uint id) public returns (uint) {
-        itemMap[id].status = 1;
+        if (itemMap[id].bidder == payable(address(0))) {
+            itemMap[id].status = 2;
+        } else {
+            itemMap[id].status = 1;
+        }
         return id;
     }
 
