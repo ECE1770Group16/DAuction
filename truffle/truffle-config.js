@@ -72,7 +72,10 @@ module.exports = {
     },
 
     sepolia: {
-      provider: () => new HDWalletProvider(),
+      provider: () => new HDWalletProvider(
+        "autumn teach disease wrist aunt execute salute mushroom actress chest pencil hold",
+        "https://eth-sepolia.g.alchemy.com/v2/e9d19bFc3O6DwpLWU27EJDfZmFo8BZmz"
+      ),
       network_id: "11155111", // Replace with the Sepolia chain ID
       gas: 6000000,
       gasPrice: 20000000000, // 20 Gwei
