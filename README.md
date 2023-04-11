@@ -67,7 +67,7 @@ $ cd client
 $ npm start
 ```
 
-8. Visit localhost:8080 to start using the application
+8. Visit http://localhost:8080/ to start using the application
 
 
 ## Reference 
