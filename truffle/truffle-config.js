@@ -72,7 +72,11 @@ module.exports = {
     },
 
     sepolia: {
-      provider: () => new HDWalletProvider(),
+      provider: () =>
+        new HDWalletProvider(
+          "erode green cage ozone dragon various hair immense nest dutch metal caution",
+          "https://eth-sepolia.g.alchemy.com/v2/5kTG1oYAI-9GHioQJV3Rlpn0CGwknbbY"
+        ),
       network_id: "11155111", // Replace with the Sepolia chain ID
       gas: 6000000,
       gasPrice: 20000000000, // 20 Gwei
