@@ -19,8 +19,6 @@ This project aims to build a decentralized online auction platform with the smar
 
 - The back-end smart contract is deployed and tested on the Sepolia Testnet
 
-- Please note that users not only can directly utilize the deployed front-end application on AWS, but also can build and host the front-end application locally. Both approaches provide access to the deployed contract on the public blockchain networks
-
 
 ## How to run the application
 
